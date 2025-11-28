@@ -267,6 +267,10 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
 
 
 class InputTextPageArgumentsData {
+  late String title;
+  late String? content;
+  late String? hintText;
+  late TextInputType? keyboardType;
 
   InputTextPageArgumentsData({
     required this.title,
@@ -275,8 +279,5 @@ class InputTextPageArgumentsData {
     this.keyboardType,
 });
 
-  late String title;
-  late String? content;
-  late String? hintText;
-  late TextInputType? keyboardType;
+
 }

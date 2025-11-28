@@ -35,7 +35,7 @@ class _StoreAuditPageState extends State<StoreAuditPage> {
   final ImagePicker picker = ImagePicker();
   String _address = '陕西省 西安市 雁塔区 高新六路201号';
 
-
+  //IOS键盘适配
   KeyboardActionsConfig _buildConfig(BuildContext context) {
     return KeyboardActionsConfig(
       keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
@@ -167,8 +167,8 @@ class _StoreAuditPageState extends State<StoreAuditPage> {
         // 可滑动ListView关闭BottomSheet
         return DraggableScrollableSheet(
           key: const Key('goods_sort'),
-          initialChildSize: 0.7,
-          minChildSize: 0.65,
+           initialChildSize: 0.9,
+           minChildSize: 0.6,
           expand: false,
           builder: (_, scrollController) {
             return ListView.builder(

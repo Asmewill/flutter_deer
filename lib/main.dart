@@ -24,7 +24,7 @@ import '../../l10n/deer_localizations.dart';
 
 Future<void> main() async {
 //  debugProfileBuildsEnabled = true;
-//  debugPaintLayerBordersEnabled = true;
+//  debugPaintLayerBordersEn abled = true;
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
   if (Constant.inProduction) {
@@ -74,6 +74,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final Widget? home;
+  final ThemeData? theme;
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   MyApp({super.key, this.home, this.theme}) {
     Log.init();
     initDio();
@@ -81,9 +84,70 @@ class MyApp extends StatelessWidget {
     initQuickActions();
   }
 
-  final Widget? home;
-  final ThemeData? theme;
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+
+    final Widget app = MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider())
+      ],
+      child: Consumer2<ThemeProvider, LocaleProvider>(
+        builder: (_, ThemeProvider provider, LocaleProvider localeProvider, __) {
+          return _buildMaterialApp(provider, localeProvider);
+        },
+      ),
+    );
+
+    /// Toast 配置
+    return OKToast(
+      backgroundColor: Colors.black54,
+      textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+      radius: 20.0,
+      position: ToastPosition.bottom,
+      child: app
+    );
+
+  }
+
+  Widget _buildMaterialApp(ThemeProvider provider, LocaleProvider localeProvider) {
+    return MaterialApp(
+      title: 'Flutter Deer',
+      // showPerformanceOverlay: true, //显示性能标签
+      // debugShowCheckedModeBanner: false, // 去除右上角debug的标签
+      // checkerboardRasterCacheImages: true,
+      // showSemanticsDebugger: true, // 显示语义视图
+      // checkerboardOffscreenLayers: true, // 检查离屏渲染
+
+      theme: theme ?? provider.getTheme(),
+      darkTheme: provider.getTheme(isDarkMode: true),
+      themeMode: provider.getThemeMode(),
+      home: home ?? const SplashPage(),
+      onGenerateRoute: Routes.router.generator,
+      localizationsDelegates: DeerLocalizations.localizationsDelegates,
+      supportedLocales: DeerLocalizations.supportedLocales,
+      locale: localeProvider.locale,
+      navigatorKey: navigatorKey,
+      builder: (BuildContext context, Widget? child) {
+        /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+          child: child!,
+        );
+      },
+
+      /// 因为使用了fluro，这里设置主要针对Web
+      onUnknownRoute: (_) {
+        return MaterialPageRoute<void>(
+          builder: (BuildContext context) => const NotFoundPage(),
+        );
+      },
+      restorationScopeId: 'app',
+    );
+  }
+
+
 
   void initDio() {
     final List<Interceptor> interceptors = <Interceptor>[];
@@ -124,71 +188,11 @@ class MyApp extends StatelessWidget {
 
       quickActions.setShortcutItems(<ShortcutItem>[
         const ShortcutItem(
-          type: 'demo',
-          localizedTitle: 'Demo',
-          icon: 'flutter_dash_black'
+            type: 'demo',
+            localizedTitle: 'Demo',
+            icon: 'flutter_dash_black'
         ),
       ]);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final Widget app = MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => LocaleProvider())
-      ],
-      child: Consumer2<ThemeProvider, LocaleProvider>(
-        builder: (_, ThemeProvider provider, LocaleProvider localeProvider, __) {
-          return _buildMaterialApp(provider, localeProvider);
-        },
-      ),
-    );
-
-    /// Toast 配置
-    return OKToast(
-      backgroundColor: Colors.black54,
-      textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-      radius: 20.0,
-      position: ToastPosition.bottom,
-      child: app
-    );
-  }
-
-  Widget _buildMaterialApp(ThemeProvider provider, LocaleProvider localeProvider) {
-    return MaterialApp(
-      title: 'Flutter Deer',
-      // showPerformanceOverlay: true, //显示性能标签
-      // debugShowCheckedModeBanner: false, // 去除右上角debug的标签
-      // checkerboardRasterCacheImages: true,
-      // showSemanticsDebugger: true, // 显示语义视图
-      // checkerboardOffscreenLayers: true, // 检查离屏渲染
-
-      theme: theme ?? provider.getTheme(),
-      darkTheme: provider.getTheme(isDarkMode: true),
-      themeMode: provider.getThemeMode(),
-      home: home ?? const SplashPage(),
-      onGenerateRoute: Routes.router.generator,
-      localizationsDelegates: DeerLocalizations.localizationsDelegates,
-      supportedLocales: DeerLocalizations.supportedLocales,
-      locale: localeProvider.locale,
-      navigatorKey: navigatorKey,
-      builder: (BuildContext context, Widget? child) {
-        /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
-          child: child!,
-        );
-      },
-
-      /// 因为使用了fluro，这里设置主要针对Web
-      onUnknownRoute: (_) {
-        return MaterialPageRoute<void>(
-          builder: (BuildContext context) => const NotFoundPage(),
-        );
-      },
-      restorationScopeId: 'app',
-    );
   }
 }

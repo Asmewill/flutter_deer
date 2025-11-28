@@ -31,16 +31,16 @@ class ThemeUtils {
   static const SystemUiOverlayStyle light = SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: Colours.dark_bg_color,
-    systemNavigationBarIconBrightness: Brightness.light,
-    statusBarIconBrightness: Brightness.light,
+    systemNavigationBarIconBrightness: Brightness.light,//导航栏图标是亮色
+    statusBarIconBrightness: Brightness.light,  //状态栏图标是亮色
     statusBarBrightness: Brightness.dark,
   );
 
   static const SystemUiOverlayStyle dark = SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: Colors.white,
-    systemNavigationBarIconBrightness: Brightness.dark,
-    statusBarIconBrightness: Brightness.dark,
+    systemNavigationBarIconBrightness: Brightness.dark,//状态栏图标是灰色
+    statusBarIconBrightness: Brightness.dark, //状态栏图标是灰色
     statusBarBrightness: Brightness.light,
   );
 }

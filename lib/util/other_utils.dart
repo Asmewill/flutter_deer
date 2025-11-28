@@ -108,7 +108,7 @@ Widget _buildDialogTransitions(BuildContext context, Animation<double> animation
   );
 }
 
-/// String 空安全处理
+/// String 空安全处理   Dart的扩展方法 | 基本语法结构为extension <扩展名> on <类型> { ... }
 extension StringExtension on String? {
   String get nullSafe => this ?? '';
 }

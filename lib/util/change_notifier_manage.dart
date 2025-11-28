@@ -39,23 +39,23 @@ import 'package:flutter/widgets.dart';
 ///   }
 /// }
 /// ```
+/// 通过 on关键字，可以限制ChangeNotifierMixin 这个Mixin 只能用于特定类State（或其子类）之上，这增强了代码的类型安全性
 mixin ChangeNotifierMixin<T extends StatefulWidget> on State<T> {
 
   Map<ChangeNotifier?, List<VoidCallback>?>? _map;
+  //1个 Mixin 包含了抽象方法（即没有实现的方法），那么任何使用（with）这个 Mixin 的类都必须实现这些抽象方法
+   Map<ChangeNotifier?, List<VoidCallback>?>?  changeNotifier(); //抽象方法
 
-  Map<ChangeNotifier?, List<VoidCallback>?>? changeNotifier();
-  
   @override
   void initState() {
     _map = changeNotifier();
     /// 遍历数据，如果callbacks不为空则添加监听
-    _map?.forEach((changeNotifier, callbacks) { 
+    _map?.forEach((changeNotifier, callbacks) {
       if (callbacks != null && callbacks.isNotEmpty) {
 
         void addListener(VoidCallback callback) {
           changeNotifier?.addListener(callback);
         }
-
         callbacks.forEach(addListener);
       }
     });

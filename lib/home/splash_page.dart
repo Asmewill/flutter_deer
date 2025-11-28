@@ -63,26 +63,22 @@ class _SplashPageState extends State<SplashPage> {
     super.dispose();
   }
 
-  void _initGuide() {
-    setState(() {
-      _status = 1;
-    });
-  }
+
 
   void _initSplash() {
+    //RxDart  delay
     _subscription = Stream.value(1).delay(const Duration(milliseconds: 1500)).listen((_) {
       if (SpUtil.getBool(Constant.keyGuide, defValue: true)! || Constant.isDriverTest) {
         SpUtil.putBool(Constant.keyGuide, false);
-        _initGuide();
+        setState(() {
+          _status = 1;
+        });
       } else {
-        _goLogin();
+        NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
       }
     });
   }
 
-  void _goLogin() {
-    NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +108,7 @@ class _SplashPageState extends State<SplashPage> {
         },
         onTap: (index) {
           if (index == _guideList.length - 1) {
-            _goLogin();
+            NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
           }
         },
       )

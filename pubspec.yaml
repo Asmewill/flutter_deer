@@ -53,7 +53,7 @@ dependencies:
   sprintf: ^7.0.0
   # 状态管理 https://github.com/rrousselGit/provider
   provider: ^6.1.2
-  # 扫码 https://github.com/juliuscanute/qr_code_scanner
+  # 扫码 https://github.com/NeverOvO/qr_code_scanner
   qr_code_scanner:
     git:
       url: 'https://github.com/NeverOvO/qr_code_scanner.git'
@@ -78,6 +78,9 @@ dependencies:
   # 动画效果 https://github.com/xvrh/lottie-flutter
   lottie: ^3.3.0
   win32: 5.5.3
+
+
+
 
 # https://github.com/simplezhli/flutter_deer/issues/187
 dependency_overrides:

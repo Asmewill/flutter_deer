@@ -57,6 +57,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     ) : Gaps.empty;
 
+
+    // MyButton(
+    //   onPressed: () {
+    //     debugPrint('文件路径：${_imageGlobalKey.currentState?.pickedFile?.path}');
+    //     NavigatorUtils.push(context, StoreRouter.auditResultPage);
+    //   },
+    //   text: '提交',
+    // )
     final Widget back = isBack ? IconButton(
       onPressed: () async {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -86,12 +94,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
     );
-    
+    //AnnotatedRegion实现局部的、可覆盖的样式控制
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,
       child: Material(
         color: bgColor,
-        child: SafeArea(
+        child: SafeArea( //确保您的内容能够自动避开屏幕上那些可能遮挡视线的特殊区域(刘海屏、水滴屏、曲面屏)。
           child: Stack(
             alignment: Alignment.centerLeft,
             children: <Widget>[

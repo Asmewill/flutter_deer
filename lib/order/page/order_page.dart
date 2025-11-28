@@ -52,18 +52,6 @@ class _OrderPageState extends State<OrderPage> with AutomaticKeepAliveClientMixi
     precacheImage(ImageUtils.getAssetImage('order/yqx_s'), context);
   }
 
-  @override
-  void dispose() {
-    _tabController?.dispose();
-    super.dispose();
-  }
-
-  /// https://github.com/simplezhli/flutter_deer/issues/194
-  @override
-  // ignore: must_call_super
-  void didChangeDependencies() {
-  }
-
   bool isDark = false;
 
   @override
@@ -78,7 +66,7 @@ class _OrderPageState extends State<OrderPage> with AutomaticKeepAliveClientMixi
             /// 像素对齐问题的临时解决方法
             SafeArea(
               child: SizedBox(
-                height: 105,
+                height: 505,
                 width: double.infinity,
                 child: isDark ? null : const DecoratedBox(
                   decoration: BoxDecoration(
@@ -210,6 +198,17 @@ class _OrderPageState extends State<OrderPage> with AutomaticKeepAliveClientMixi
     provider.setIndex(index);
     /// 这里没有指示器，所以缩短过渡动画时间，减少不必要的刷新
     _tabController?.animateTo(index, duration: Duration.zero);
+  }
+  @override
+  void dispose() {
+    _tabController?.dispose();
+    super.dispose();
+  }
+
+  /// https://github.com/simplezhli/flutter_deer/issues/194
+  @override
+  // ignore: must_call_super
+  void didChangeDependencies() {
   }
 }
 

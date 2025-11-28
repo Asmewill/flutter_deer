@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 
 class ImageUtils {
   
-  static ImageProvider getAssetImage(String name, {ImageFormat format = ImageFormat.png}) {
+  static AssetImage getAssetImage(String name, {ImageFormat format = ImageFormat.png}) {
     return AssetImage(getImgPath(name, format: format));
   }
 

@@ -81,7 +81,7 @@ class SelectedImageState extends State<SelectedImage> {
     );
 
     if (widget.heroTag != null && !Device.isWeb) {
-      image = Hero(tag: widget.heroTag!, child: image);
+      image = Hero(tag: widget.heroTag!, child: image);//Hero是 Flutter 中一个用于实现共享元素转场动画的控件
     }
 
     return Semantics(

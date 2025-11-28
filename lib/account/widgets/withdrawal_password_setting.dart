@@ -154,7 +154,7 @@ class _WithdrawalPasswordSettingState extends State<WithdrawalPasswordSetting> {
 
           /// 点击时给予振动反馈
           if (!Device.isDesktop && await Vibration.hasVibrator()) {
-            Vibration.vibrate(duration: 10);
+            Vibration.vibrate(duration: 100);
           }
         },
       ),
