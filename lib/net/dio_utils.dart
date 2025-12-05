@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_deer/res/constant.dart';
 import 'package:flutter_deer/util/log_utils.dart';
 import 'base_entity.dart';
 import 'error_handle.dart';
+import 'package:dio/io.dart';
 
 /// 默认dio配置
 Duration _connectTimeout = const Duration(seconds: 15);
@@ -37,7 +39,7 @@ typedef NetErrorCallback = void Function(int code, String msg);
 class DioUtils {
 
   factory DioUtils() => _singleton;
-
+  bool isOpenProxy=true;
   DioUtils._() {
     final BaseOptions options = BaseOptions(
       connectTimeout: _connectTimeout,
@@ -54,13 +56,19 @@ class DioUtils {
     );
     _dio = Dio(options);
     /// Fiddler抓包代理配置 https://www.jianshu.com/p/d831b1f7c45b
-   // _dio.httpClientAdapter = IOHttpClientAdapter()..onHttpClientCreate = (HttpClient client) {
-   //   client.findProxy = (uri) {
-   //     //proxy all request to localhost:8888
-   //     return 'PROXY 10.41.0.132:8888';
-   //   };
-   //   return client;
-   // };
+    if(isOpenProxy){
+      _dio.httpClientAdapter = IOHttpClientAdapter()..onHttpClientCreate = (HttpClient client) {
+        client.findProxy = (uri) {
+          //proxy all request to localhost:8888
+          return 'PROXY 192.168.2.13:8888';
+        };
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+    }
+
+
+
 
     /// 添加拦截器
     void addInterceptor(Interceptor interceptor) {
