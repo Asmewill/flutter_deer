@@ -79,7 +79,7 @@ class _DeerListViewState extends State<DeerListView> {
     );
   }
 
-  Future<void> _loadMore() async {
+  void _loadMore() async {
     if (widget.loadMore == null) {
       return;
     }
@@ -90,7 +90,7 @@ class _DeerListViewState extends State<DeerListView> {
       return;
     }
     _isLoading = true;
-    await widget.loadMore?.call();
+    await  widget.loadMore?.call(); //如果没有await，下滑的过程中，会多次调用_loadMore，可能会导致多次请求
     _isLoading = false;
   }
 
