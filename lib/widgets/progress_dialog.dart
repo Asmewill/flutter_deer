@@ -25,7 +25,7 @@ class ProgressDialog extends Dialog {
     );
     
     return Material(
-      type: MaterialType.transparency,
+     type: MaterialType.transparency,
       child: Center(
         child: Container(
           height: 88.0,

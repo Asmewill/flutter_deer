@@ -36,7 +36,7 @@ mixin BasePageMixin<T extends StatefulWidget, P extends BasePresenter> on State<
         showDialog<void>(
           context: context,
           barrierDismissible: false,
-          barrierColor: const Color(0x00FFFFFF), // 默认dialog背景色为半透明黑色，这里修改为透明（1.20添加属性）
+          //barrierColor: const Color(0x00FFFFFF), // 默认dialog背景色为半透明黑色，这里修改为透明（1.20添加属性）
           builder:(_) {
             return WillPopScope(
               onWillPop: () async {

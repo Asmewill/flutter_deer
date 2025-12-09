@@ -8,6 +8,7 @@ import 'package:flutter_deer/order/provider/base_list_provider.dart';
 import 'package:flutter_deer/shop/iview/shop_iview.dart';
 import 'package:flutter_deer/shop/models/user_entity.dart';
 import 'package:flutter_deer/shop/presenter/shop_presenter.dart';
+import 'package:flutter_deer/util/change_notifier_manage.dart';
 import 'package:flutter_deer/util/other_utils.dart';
 import 'package:flutter_deer/widgets/my_refresh_list.dart';
 import 'package:flutter_deer/widgets/my_search_bar.dart';

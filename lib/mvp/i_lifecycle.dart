@@ -7,7 +7,7 @@ abstract class ILifecycle {
   
   void didUpdateWidgets<W>(W oldWidget);
   
-  void deactivate();
+  void deactivate();//停用
   
   void dispose();
 }

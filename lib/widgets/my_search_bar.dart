@@ -32,28 +32,42 @@ class _MySearchBarState extends State<MySearchBar> {
 
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focus = FocusNode();
+  bool _isShowDeleteIcon=false;
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(isEmpty);
+    _controller.text="111";
+  }
+
 
   @override
   void dispose() {
+    _controller.removeListener(isEmpty);
     _focus.dispose();
     _controller.dispose();
     super.dispose();
   }
 
-  // @override
-  // void initState() {
-  //   WidgetsBinding.instance!.addPostFrameCallback((_) async {
-  //     SystemChannels.textInput.invokeMethod<void>('TextInput.updateConfig', const TextInputConfiguration().toJson());
-  //     SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
-  //   });
-  //   super.initState();
-  // }
+  void isEmpty(){
+    bool isShowDeleteIcon=false;
+    if(_controller.text.isNotEmpty){
+      isShowDeleteIcon=true;
+    }
+    //防止频繁setState
+    if(_isShowDeleteIcon!=isShowDeleteIcon){
+      setState(() {
+        _isShowDeleteIcon=isShowDeleteIcon;
+      });
+    }
 
+
+  }
   @override
   Widget build(BuildContext context) {
     final bool isDark = context.isDark;
     final Color iconColor = isDark ? Colours.dark_text_gray : Colours.text_gray_c;
-    
+
     final Widget back = Semantics(
       label: '返回',
       child: SizedBox(
@@ -77,32 +91,6 @@ class _MySearchBarState extends State<MySearchBar> {
       ),
     );
 
-    /// 使用2.0.0新增CupertinoSearchTextField 实现， 需添加依赖 cupertino_icons: ^1.0.2
-    // final Widget textField1 = Expanded(child: Container(
-    //     height: 32.0,
-    //     child: CupertinoSearchTextField(
-    //       key: const Key('search_text_field'),
-    //       controller: _controller,
-    //       focusNode: _focus,
-    //       placeholder: widget.hintText,
-    //       placeholderStyle: Theme.of(context).inputDecorationTheme.hintStyle,
-    //       padding: const EdgeInsetsDirectional.fromSTEB(3.8, 0, 5, 0),
-    //       prefixInsets: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
-    //       suffixInsets: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-    //       style: Theme.of(context).textTheme.subtitle1,
-    //       itemSize: 16.0,
-    //       itemColor: iconColor,
-    //       decoration: BoxDecoration(
-    //         color: isDark ? Colours.dark_material_bg : Colours.bg_gray,
-    //         borderRadius: BorderRadius.circular(4.0),
-    //       ),
-    //       onSubmitted: (String val) {
-    //         _focus.unfocus();
-    //         // 点击软键盘的动作按钮时的回调
-    //         widget.onPressed(val);
-    //       },
-    //     )
-    // ));
 
     final Widget textField = Expanded(
       child: Container(
@@ -135,7 +123,7 @@ class _MySearchBarState extends State<MySearchBar> {
                 label: '清空',
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
-                  child: LoadAssetImage('order/order_delete', color: iconColor),
+                  child: _isShowDeleteIcon?LoadAssetImage('order/order_delete', color: iconColor):SizedBox.shrink(),
                 ),
               ),
               onTap: () {
@@ -149,7 +137,7 @@ class _MySearchBarState extends State<MySearchBar> {
         ),
       ),
     );
-    
+
     final Widget search = MyButton(
       minHeight: 32.0,
       minWidth: 44.0,
@@ -162,7 +150,7 @@ class _MySearchBarState extends State<MySearchBar> {
         widget.onPressed?.call(_controller.text);
       },
     );
-    
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: isDark ? ThemeUtils.light : ThemeUtils.dark,
       child: Material(
